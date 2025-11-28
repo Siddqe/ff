@@ -1,0 +1,10 @@
+/* Salary Template Management - Reusing Salary Management Styles */
+.salary-template-management {
+  padding: 24px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #f8fafc 100%);
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* All other CSS styles from SalaryManagement.css are reused */
+/* The component uses the same CSS classes as SalaryManagement */

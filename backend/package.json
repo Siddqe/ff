@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node server.js",
+    "test:hike": "node testHikeFunctionality.js",
+    "test:hike-manual": "node -e \"import('./testHikeFunctionality.js').then(mod => mod.default())\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cloudinary": "^2.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "exceljs": "^4.4.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "libphonenumber-js": "^1.12.26",
+    "mongoose": "^8.19.2",
+    "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^7.0.9",
+    "nodemon": "^3.1.10",
+    "number-to-words": "^1.2.4",
+    "pdfkit": "^0.17.2",
+    "react-phone-number-input": "^3.4.13"
+  }
+}
