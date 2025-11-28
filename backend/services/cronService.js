@@ -7,7 +7,7 @@ import Salary from '../models/Salary.js';
  */
 export const startHikeCronJob = () => {
   // Run every day at midnight to check for hike status updates
-  cron.schedule('*/1 * * * *', async () => {
+  cron.schedule('0 0 * * *', async () => {
     try {
       console.log('🔄 Checking for salary hike status updates...');
       
