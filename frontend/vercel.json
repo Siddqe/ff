@@ -1,5 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://localhost:5000/api/$1" }
-  ]
-}
