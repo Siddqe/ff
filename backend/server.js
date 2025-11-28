@@ -115,6 +115,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
+app.get('/', (req, res) => {
+  res.send('Backend is running!');
+});
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() =>{ console.log('✅ Connected to MongoDB');
