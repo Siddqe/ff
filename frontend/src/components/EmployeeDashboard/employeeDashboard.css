@@ -458,7 +458,7 @@
 .action-btns:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-} */
+} 
  
 /* Empty States */
 .empty-state {
@@ -890,7 +890,6 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  /* box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3); */
   position: relative;
   overflow: hidden;
   display: flex;
