@@ -597,6 +597,215 @@
   animation: enhanced-loading-dots 1.5s steps(5, end) infinite;
 }
 
+/* Forgot Password Styles */
+.forgot-password-container,
+.verify-otp-container,
+.reset-password-container {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  animation: slideInRight 0.5s ease-out;
+}
+
+.forgot-password-card,
+.verify-otp-card,
+.reset-password-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.forgot-password-header,
+.verify-otp-header,
+.reset-password-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.lock-icon,
+.mail-icon,
+.key-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.forgot-password-header h2,
+.verify-otp-header h2,
+.reset-password-header h2 {
+  color: var(--c-deep);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.forgot-password-header p,
+.verify-otp-header p,
+.reset-password-header p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.email-display {
+  color: var(--c-mid);
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.success-message {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #2e7d32;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+  border-left: 4px solid #2e7d32;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.back-to-login {
+  width: 100%;
+  padding: 0.8rem;
+  background: transparent;
+  border: none;
+  color: var(--c-mid);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.back-to-login:hover {
+  color: var(--c-deep);
+  transform: translateX(-5px);
+}
+
+/* OTP Input Styles */
+.otp-input-group {
+  margin-bottom: 2rem;
+}
+
+.otp-input-group label {
+  display: block;
+  margin-bottom: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.otp-input {
+  width: 50px;
+  height: 60px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.otp-input:focus {
+  border-color: var(--c-light);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(90, 205, 98, 0.1);
+  transform: scale(1.05);
+}
+
+.timer-section {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.timer-text {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.timer-text span {
+  color: var(--c-deep);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.resend-btn {
+  background: transparent;
+  border: none;
+  color: var(--c-mid);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+.resend-btn:hover:not(:disabled) {
+  color: var(--c-deep);
+}
+
+.resend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Password Input Wrapper */
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 45px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
+/* Form Options */
+.form-options {
+  text-align: right;
+  margin-bottom: 2rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+  .forgot-password-card,
+  .verify-otp-card,
+  .reset-password-card {
+    padding: 1.5rem;
+  }
+
+  .otp-input {
+    width: 40px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+
+  .otp-inputs {
+    gap: 0.5rem;
+  }
+}
 @keyframes enhanced-loading-dots {
   0%, 20% { content: ' .'; }
   40% { content: ' ..'; }

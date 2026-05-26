@@ -313,3 +313,157 @@ const createPayslipEmailTemplate = (payslip) => {
     </html>
   `;
 };
+
+// Add this function to your existing emailService.js
+
+// OTP email template for password reset
+const createOTPEmailTemplate = (otp, userName) => {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Password Reset OTP</title>
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .header {
+                background: linear-gradient(135deg, #5acd62, #3a9440);
+                color: white;
+                padding: 30px;
+                text-align: center;
+                border-radius: 10px 10px 0 0;
+            }
+            .content {
+                background: #f8faf9;
+                padding: 30px;
+                border-radius: 0 0 10px 10px;
+                border: 1px solid #e0e0e0;
+                border-top: none;
+            }
+            .otp-box {
+                background: white;
+                padding: 25px;
+                text-align: center;
+                border-radius: 12px;
+                margin: 25px 0;
+                border: 2px dashed #3a9440;
+            }
+            .otp-code {
+                font-size: 32px;
+                font-weight: bold;
+                letter-spacing: 8px;
+                color: #06510f;
+                font-family: monospace;
+                background: #f0fdf4;
+                padding: 15px;
+                border-radius: 8px;
+                display: inline-block;
+            }
+            .warning {
+                background: #fff3cd;
+                border-left: 4px solid #ffc107;
+                padding: 12px;
+                margin: 20px 0;
+                font-size: 14px;
+            }
+            .button {
+                display: inline-block;
+                background: linear-gradient(135deg, #5acd62, #3a9440);
+                color: white;
+                padding: 12px 30px;
+                text-decoration: none;
+                border-radius: 5px;
+                margin: 10px 0;
+                font-weight: bold;
+            }
+            .footer {
+                text-align: center;
+                margin-top: 30px;
+                padding-top: 20px;
+                border-top: 1px solid #e0e0e0;
+                color: #666;
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🔐 Password Reset</h1>
+            </div>
+            <div class="content">
+                <h2>Hello ${userName || 'User'},</h2>
+                <p>We received a request to reset your password. Use the OTP code below to proceed:</p>
+                
+                <div class="otp-box">
+                    <div class="otp-code">${otp}</div>
+                </div>
+                
+                <div class="warning">
+                    <strong>⚠️ Important:</strong>
+                    <ul style="margin: 5px 0 0 20px; padding: 0;">
+                        <li>This OTP is valid for only 10 minutes</li>
+                        <li>Do not share this code with anyone</li>
+                        <li>If you didn't request this, please ignore this email</li>
+                    </ul>
+                </div>
+                
+                <p style="text-align: center; margin-top: 20px;">
+                    <a href="${process.env.FRONTEND_URL}/reset-password" class="button">Reset Password</a>
+                </p>
+            </div>
+            <div class="footer">
+                <p>If you have any issues, please contact support.</p>
+                <p>© ${new Date().getFullYear()} Zynith IT Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+    </html>
+  `;
+};
+
+// Send OTP for password reset
+export const sendPasswordResetOTP = async (email, otp, userName) => {
+  try {
+    const transporter = createTransporter();
+    
+    const mailOptions = {
+      from: {
+        name: 'Zynith IT Solutions - Security',
+        address: process.env.EMAIL_USER
+      },
+      to: email,
+      subject: 'Password Reset OTP - Zynith IT Solutions',
+      html: createOTPEmailTemplate(otp, userName),
+      text: `Password Reset Request
+        
+Your OTP for password reset is: ${otp}
+
+This OTP is valid for 10 minutes.
+
+If you didn't request this, please ignore this email.
+
+Best regards,
+Zynith IT Solutions Security Team`
+    };
+
+    const result = await transporter.sendMail(mailOptions);
+    console.log('OTP email sent successfully:', result.messageId);
+    return { success: true, messageId: result.messageId };
+  } catch (error) {
+    console.error('Error sending OTP email:', error);
+    return { success: false, error: error.message };
+  }
+};

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import ForgotPassword from './ForgotPassword';
+import VerifyOTP from './VerifyOTP';
+import ResetPassword from './ResetPassword';
 import './Login.css';
 
 const Login = () => {
@@ -10,8 +13,10 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [debugInfo, setDebugInfo] = useState('');
-  const [showDebug, setShowDebug] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetOtp, setResetOtp] = useState('');
+  const [resetStep, setResetStep] = useState('forgot'); // 'forgot', 'verify', 'reset'
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -33,7 +38,6 @@ const Login = () => {
 
     setLoading(true);
     setError('');
-    setDebugInfo('');
 
     try {
       await login(formData);
@@ -44,13 +48,6 @@ const Login = () => {
         error.message ||
         'Login failed. Please check your credentials.';
       setError(errorMessage);
-
-      setDebugInfo(`
-        API URL: ${import.meta.env.VITE_API_URL}
-        Status: ${error.response?.status}
-        Data: ${JSON.stringify(error.response?.data)}
-        Time: ${new Date().toLocaleString()}
-      `);
     } finally {
       setLoading(false);
     }
@@ -62,6 +59,45 @@ const Login = () => {
     }
   };
 
+  const handleForgotPassword = () => {
+    setShowForgotPassword(true);
+  };
+
+  const handleBackToLogin = () => {
+    setShowForgotPassword(false);
+    setResetStep('forgot');
+    setResetEmail('');
+    setResetOtp('');
+  };
+
+  const handleOTPSent = (email) => {
+    setResetEmail(email);
+    setResetStep('verify');
+  };
+
+  const handleOTPVerified = (otp) => {
+    setResetOtp(otp);
+    setResetStep('reset');
+  };
+
+  const handlePasswordReset = (message) => {
+    // Show success message and redirect to login
+    alert(message); // You can replace this with a toast notification
+    handleBackToLogin();
+  };
+
+  // Show forgot password flow
+  if (showForgotPassword) {
+    if (resetStep === 'forgot') {
+      return <ForgotPassword onBack={handleBackToLogin} onSuccess={handleOTPSent} />;
+    } else if (resetStep === 'verify') {
+      return <VerifyOTP email={resetEmail} onBack={handleBackToLogin} onVerified={handleOTPVerified} />;
+    } else if (resetStep === 'reset') {
+      return <ResetPassword email={resetEmail} otp={resetOtp} onBack={handleBackToLogin} onSuccess={handlePasswordReset} />;
+    }
+  }
+
+  // Show login form
   return (
     <div className="login-container">
       <div className="login-left-panel">
@@ -70,7 +106,6 @@ const Login = () => {
 
       <div className="login-right-panel">
         <div className="login-card">
-          {/* SVG User Icon */}
           <div className="user-icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,28 +125,10 @@ const Login = () => {
 
           <h2 className="login-title">ZYNITH-IT SOLUTIONS</h2>
           <h1 className="company-name">FINANCE PORTAL</h1>
-          <div className="divider"><span></span></div>
+          <div className="enhanced-divider"></div>
 
           <form onSubmit={handleSubmit} className="login-form">
-            {error && (
-              <div className="error-message">
-                {error}
-                {debugInfo && (
-                  <div
-                    type="button"
-                    className="debug-toggle-btn"
-                  >
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* {showDebug && debugInfo && (
-              <div className="debug-info">
-                <strong>Debug Information:</strong>
-                {debugInfo}
-              </div>
-            )} */}
+            {error && <div className="enhanced-error-message">{error}</div>}
 
             <div className="form-group">
               <label htmlFor="email">Email address</label>
@@ -145,10 +162,16 @@ const Login = () => {
               />
             </div>
 
+            <div className="form-options">
+              <a href="#" className="forgot-password" onClick={handleForgotPassword}>
+                Forgot Password?
+              </a>
+            </div>
+
             <button type="submit" className="signin-btn" disabled={loading}>
               {loading ? (
                 <span>
-                  Signing in<span className="loading-dots"></span>
+                  Signing in<span className="enhanced-loading-dots"></span>
                 </span>
               ) : (
                 'Sign in'
