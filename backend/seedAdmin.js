@@ -19,14 +19,14 @@ const seedAdmin = async () => {
     // Create admin user
     const admin = new User({
       personId: 'ADMIN001',
-      email: 'info@zynith-it.com',
+      email: 'abukutty56@gmail.com',
       password: 'admin123', // Change this in production
       role: 'admin'
     });
 
     await admin.save();
     console.log('Admin user created successfully');
-    console.log('Email: info@zynith-it.com');
+    console.log('Email: abukutty56@gmail.com');
     console.log('Password: admin123');
     
   } catch (error) {
