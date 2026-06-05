@@ -74,50 +74,40 @@ router.post('/verify', async (req, res) => {
   }
 });
 
-router.post('/forgot-password', async (req, res) => {
+export const sendPasswordResetOTP = async (email, otp, userName) => {
   try {
-    const { email } = req.body;
+    const response = await resend.emails.send({
+      from: 'Security <onboarding@resend.dev>',
+      to: email,
+      subject: 'Password Reset OTP - Zynith IT Solutions',
+      html: createOTPEmailTemplate(otp, userName),
+      text: `
+Password Reset Request
 
-    if (!email) {
-      return res.status(400).json({ message: 'Email is required' });
-    }
+Your OTP for password reset is: ${otp}
 
-    // Find user by email
-    const user = await User.findOne({ email, isActive: true });
-    if (!user) {
-      // For security, don't reveal if email exists or not
-      return res.status(200).json({ 
-        message: 'If an account exists with this email, you will receive an OTP shortly.' 
-      });
-    }
+This OTP is valid for 10 minutes.
 
-    // Generate 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    
-    // Save OTP to database
-    await PasswordReset.create({
-      email: user.email,
-      otp: otp,
-      expiresAt: new Date(Date.now() + 10 * 60 * 1000) // 10 minutes
+If you didn't request this password reset, please ignore this email.
+      `
     });
 
-    // Send OTP via email
-    const emailResult = await sendPasswordResetOTP(user.email, otp, user.personId || user.email.split('@')[0]);
+    console.log('OTP email sent successfully:', response);
 
-    if (!emailResult.success) {
-      console.error('Failed to send OTP email:', emailResult.error);
-      return res.status(500).json({ message: 'Failed to send OTP. Please try again later.' });
-    }
+    return {
+      success: true,
+      messageId: response.data?.id
+    };
 
-    res.status(200).json({ 
-      message: 'If an account exists with this email, you will receive an OTP shortly.' 
-    });
   } catch (error) {
-    console.error('Forgot password error:', error);
-    res.status(500).json({ message: 'Server error. Please try again later.' });
-  }
-});
+    console.error('Error sending OTP email:', error);
 
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
 // Verify OTP
 router.post('/verify-otp', async (req, res) => {
   try {
